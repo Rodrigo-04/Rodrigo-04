@@ -1,0 +1,62 @@
+name: Profile README graphs
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"   # a cada 12 horas
+  workflow_dispatch:          # permite rodar manualmente
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar stats.svg
+        run: |
+          mkdir -p dist
+          curl -fsSL -o dist/stats.svg \
+            "https://github-readme-stats.vercel.app/api?username=${{ github.repository_owner }}&show_icons=true&theme=dracula&include_all_commits=true&count_private=true&locale=en"
+
+      - name: Publicar na branch stats-output
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: stats-output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  languages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar languages.svg
+        run: |
+          mkdir -p dist
+          curl -fsSL -o dist/languages.svg \
+            "https://github-readme-stats.vercel.app/api/top-langs/?username=${{ github.repository_owner }}&layout=compact&langs_count=5&card_width=320&theme=dracula&locale=pt-br"
+
+      - name: Publicar na branch languages-output
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: languages-output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  pacman:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gerar pacman-contribution-graph
+        uses: abozanona/pacman-contribution-graph@main
+        with:
+          github_user_name: ${{ github.repository_owner }}
+
+      - name: Publicar na branch pacman-output
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: pacman-output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
