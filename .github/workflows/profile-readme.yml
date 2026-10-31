@@ -18,7 +18,7 @@ jobs:
         run: |
           mkdir -p dist
           curl -fsSL -o dist/stats.svg \
-            "https://github-readme-stats.vercel.app/api?username=${{ github.repository_owner }}&show_icons=true&theme=dracula&include_all_commits=true&count_private=true&locale=en"
+            "https://github-stats-extended.vercel.app/api?username=${{ github.repository_owner }}&show_icons=true&theme=dracula&include_all_commits=true&count_private=true&locale=en"
 
       - name: Publicar na branch stats-output
         uses: crazy-max/ghaction-github-pages@v4
@@ -35,7 +35,7 @@ jobs:
         run: |
           mkdir -p dist
           curl -fsSL -o dist/languages.svg \
-            "https://github-readme-stats.vercel.app/api/top-langs/?username=${{ github.repository_owner }}&layout=compact&langs_count=5&card_width=320&theme=dracula&locale=pt-br"
+            "https://github-stats-extended.vercel.app/api/top-langs/?username=${{ github.repository_owner }}&layout=compact&langs_count=5&card_width=320&theme=dracula&locale=pt-br"
 
       - name: Publicar na branch languages-output
         uses: crazy-max/ghaction-github-pages@v4
